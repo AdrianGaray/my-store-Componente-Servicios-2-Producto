@@ -9,6 +9,8 @@ import { Product } from './models/product.model'; //importamos el modelo Product
 export class AppComponent {
   imgParent = '';
 
+  showImg = true;
+
   // renderizar una familia de productos
   // se agrega un array de Product
   // creamos una lista de productos
@@ -41,5 +43,12 @@ export class AppComponent {
 
   onLoaded(img: string) {
     console.log('log padre', img);
+  }
+
+  // con este metodo se cambia de estado
+  toggleImg() {
+    // si esta en true se cambia false
+    // si esta en false se cambia a true
+    this.showImg = !this.showImg;
   }
 }

@@ -14,6 +14,11 @@ export class ImgComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy
   @Output() loaded = new EventEmitter<string>();
   imageDefault = './assets/images/default.png';
 
+  // correr una tarea que corra por c/segundo incrementando este counter
+  // como es asincrono se realiza en el ngOnInit
+  counter = 0;
+  counterFn: number | undefined;
+
   constructor() {
     // before render -- corre antes del render
     // NO async -- once time -- No coorer cosas de forma asincronoas
@@ -32,6 +37,11 @@ export class ImgComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy
     // before render
     // async - fetch - llamadas a API - Promesas  - Espera de tiempo -- once time - Aqui si es donde podemos correr cosas asincronicas. Y corre una sola vez
     console.log('ngOnInit', 'imgValue =>', this.img);
+
+    this.counterFn = window.setInterval(() => {
+      this.counter += 1;
+      console.log('run counter');
+    }, 1000);
   }
 
   ngAfterViewInit() {
@@ -46,6 +56,8 @@ export class ImgComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy
     // lo dejamos de verlo en la interfaz
     // por ejemplo en ngIf, crea un compnente y cuando lo quitamos, lo remueve de la interfaz, ese compoente deja de existir
     console.log('ngOnDestroy');
+
+    window.clearInterval(this.counterFn);
   }
 
   imgError() {
