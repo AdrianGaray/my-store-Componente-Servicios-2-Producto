@@ -37,4 +37,19 @@ export class ProductsComponent {
     },
   ];
 
+  // array en vacio
+  myShoppingCart: Product[] = [];
+  total = 0;
+
+  // este evento es el q escucha. Y recibimos ese producto
+  onAddToShoppingCart(product: Product) {
+    console.log(product);
+
+    // se agrega al carrito de compras
+    this.myShoppingCart.push(product);
+
+    // recorremos el array de myShoppingCart y acumulamos el precio
+    this.total = this.myShoppingCart.reduce((sum, item) => sum + item.price, 0);
+  }
+
 }

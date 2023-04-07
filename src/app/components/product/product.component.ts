@@ -1,4 +1,5 @@
-import { Component, Input  } from '@angular/core'; //importamos Input
+// con el Output, hacemos una comunicacion con el padre (products)
+import { Component, Input, Output, EventEmitter  } from '@angular/core'; //importamos Input
 import { Product } from '../../models/product.model'; //importa el modelo de Product
 
 @Component({
@@ -17,4 +18,12 @@ export class ProductComponent {
     image: '',
     name: ''
   };
+
+  // con Output vamos a decirle q queremos agregar un evento llamado 'addedProduct'
+  // queresmo trasmitirle al padre el producto q se esta agregando, deberia trasmitir informacion de tipo <Product>
+  @Output() addedProduct = new EventEmitter<Product>(); // estamos enviendo un objeto completo (<Product>)
+
+  onAddToCart() {
+    this.addedProduct.emit(this.product);
+  }
 }
