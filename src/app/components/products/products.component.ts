@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from '../../models/product.model'; //importamos el modelo Product
+// importar el servicio store.
+import { StoreService } from '../../services/store.service';
 
 @Component({
   selector: 'app-products',
@@ -41,15 +43,20 @@ export class ProductsComponent {
   myShoppingCart: Product[] = [];
   total = 0;
 
+  // hacemos la inyeccion de dependencia de store.service
+  // podemos hacer uso del servicio StoreService, dentro del componente
+  constructor(private storeService: StoreService) {
+    // obtenemos la lista actual de elementos q estan en el carrito de compras
+    this.myShoppingCart = this.storeService.getShoppingCart();
+   }
+
   // este evento es el q escucha. Y recibimos ese producto
   onAddToShoppingCart(product: Product) {
     console.log(product);
 
-    // se agrega al carrito de compras
-    this.myShoppingCart.push(product);
-
-    // recorremos el array de myShoppingCart y acumulamos el precio
-    this.total = this.myShoppingCart.reduce((sum, item) => sum + item.price, 0);
+    // hacemos uso de los metodos del servicio
+    this.storeService.addProduct(product);
+    this.total = this.storeService.getTotal();
   }
 
 }
