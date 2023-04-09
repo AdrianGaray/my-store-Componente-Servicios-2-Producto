@@ -21,6 +21,9 @@ export class ProductsComponent {
   // array en vacio
   myShoppingCart: Product[] = [];
   total = 0;
+  // manejo de fecha PIPE
+  today = new Date();
+  date = new Date(2021, 1, 21)
 
   // hacemos la inyeccion de dependencia de store.service
   // podemos hacer uso del servicio StoreService, dentro del componente
