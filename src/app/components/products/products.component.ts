@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { Product } from '../../models/product.model'; //importamos el modelo Product
+//importamos el modelo Product
+import { Product } from '../../models/product.model';
+
 // importar el servicio store.
 import { StoreService } from '../../services/store.service';
+
+// importar el servicio ProductsService, q se encarga de hacer la peticion
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-products',
@@ -9,35 +14,9 @@ import { StoreService } from '../../services/store.service';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent {
-  // renderizar una familia de productos
-  // se agrega un array de Product
-  // creamos una lista de productos
-  products: Product[] = [
-    {
-      id: '1',
-      name: 'EL mejor juguete',
-      price: 565,
-      image: './assets/images/toy.jpg'
-    },
-    {
-      id: '2',
-      name: 'Bicicleta casi nueva',
-      price: 356,
-      image: './assets/images/bike.jpg'
-    },
-    {
-      id: '3',
-      name: 'Colleción de albumnes',
-      price: 34,
-      image: './assets/images/album.jpg'
-    },
-    {
-      id: '4',
-      name: 'Mis libros',
-      price: 23,
-      image: './assets/images/books.jpg'
-    },
-  ];
+
+  // inicializa como un array en vacio
+  products: Product[] = [];
 
   // array en vacio
   myShoppingCart: Product[] = [];
@@ -45,10 +24,26 @@ export class ProductsComponent {
 
   // hacemos la inyeccion de dependencia de store.service
   // podemos hacer uso del servicio StoreService, dentro del componente
-  constructor(private storeService: StoreService) {
+  // hacer inyeccion de dependencia de ProductsService
+  // productsService es asincrono, es decir va y hace una peticion a un servicdor, quiere decir que no lo podemos tener de forma instatanea
+  // el mejor momento de manejar cosas asincronicas es en el ngOnInit
+  constructor(
+    private storeService: StoreService,
+    private productsService: ProductsService ) {
     // obtenemos la lista actual de elementos q estan en el carrito de compras
     this.myShoppingCart = this.storeService.getShoppingCart();
    }
+
+// Angular por defecto maneja un patrón llamado Observable, así que para obtener esos datos hay q correr una función
+// En subscribe ya tenemos la información ya lista que hayamos traído desde la API.
+   ngOnInit(): void {
+    // traer todos los productos
+    this.productsService.getAllProducts()
+    .subscribe(data => {
+      console.log(data);
+      this.products = data; // en el objeto products se va a mostrar en pantalla
+    });
+  }
 
   // este evento es el q escucha. Y recibimos ese producto
   onAddToShoppingCart(product: Product) {

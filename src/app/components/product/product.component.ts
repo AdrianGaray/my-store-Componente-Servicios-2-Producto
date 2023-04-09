@@ -16,7 +16,9 @@ export class ProductComponent {
     id: '',
     price: 0,
     image: '',
-    name: ''
+    title: '',
+    category: '',
+    description: ''
   };
 
   // con Output vamos a decirle q queremos agregar un evento llamado 'addedProduct'
